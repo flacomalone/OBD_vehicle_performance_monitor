@@ -1,0 +1,1528 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "liveNow": true,
+  "panels": [
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "d1855e2e-df92-45a2-8f72-a0edc5b8be17"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "CO2 emissions (g/s)",
+            "axisPlacement": "left",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 5,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 160000
+              }
+            ]
+          },
+          "unit": "g/s"
+        },
+        "overrides": [
+          {
+            "__systemRef": "hideSeriesFrom",
+            "matcher": {
+              "id": "byNames",
+              "options": {
+                "mode": "exclude",
+                "names": [
+                  "value"
+                ],
+                "prefix": "All except:",
+                "readOnly": true
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": true
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 9,
+      "interval": "250ms",
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.1.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "HJR9f-qnz"
+          },
+          "editorMode": "code",
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  timestamp_samples.timestamp as time,\n  exhausts_co2_concentration_samples.value * 0.001518 * engine_exhaust_flow_rate_samples.value / 3600 as value\nFROM exhausts_co2_concentration_samples\nJOIN engine_exhaust_flow_rate_samples ON exhausts_co2_concentration_samples.timestampID = engine_exhaust_flow_rate_samples.timestampID\nJOIN timestamp_samples ON exhausts_co2_concentration_samples.timestampID = timestamp_samples.rowID;",
+          "refId": "CO2 concentracion (%)",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "metric_sample",
+          "timeColumn": "sampleID",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": "5m",
+      "title": "Instantaneous CO2 emissions",
+      "transparent": true,
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "d1855e2e-df92-45a2-8f72-a0edc5b8be17"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 12,
+        "y": 0
+      },
+      "id": 14,
+      "interval": "250ms",
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "10.1.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "HJR9f-qnz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  value / 10000 as \"CO2 concentration\"\nFROM exhausts_co2_concentration_samples;",
+          "refId": "CO2 concentracion (%)",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "metric_sample",
+          "timeColumn": "sampleID",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": "1s",
+      "title": "CO2 concentration",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "d1855e2e-df92-45a2-8f72-a0edc5b8be17"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "max": 5000,
+          "min": 0,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "light-yellow",
+                "value": 66
+              },
+              {
+                "color": "dark-red",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "rotrpm"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 16,
+        "y": 0
+      },
+      "id": 16,
+      "interval": "100ms",
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.1.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "HJR9f-qnz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  engine_speed_samples.value\nFROM engine_speed_samples;",
+          "refId": "CO2 concentracion (%)",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "metric_sample",
+          "timeColumn": "sampleID",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": "1s",
+      "title": "Engine speed",
+      "transparent": true,
+      "type": "gauge"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "max": 150,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "light-red",
+                "value": 95
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 20,
+        "y": 0
+      },
+      "id": 17,
+      "interval": "100ms",
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.1.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "HJR9f-qnz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  value\nFROM coolant_temperature_samples;",
+          "refId": "CO2 concentracion (%)",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "metric_sample",
+          "timeColumn": "sampleID",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": "1s",
+      "title": "Coolant temperature",
+      "transparent": true,
+      "type": "gauge"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "dark-red",
+                "value": null
+              },
+              {
+                "color": "semi-dark-orange",
+                "value": 25
+              },
+              {
+                "color": "#EAB839",
+                "value": 50
+              },
+              {
+                "color": "semi-dark-green",
+                "value": 75
+              },
+              {
+                "color": "dark-green",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 12,
+        "y": 6
+      },
+      "id": 3,
+      "interval": "250ms",
+      "options": {
+        "displayMode": "lcd",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^value$/",
+          "values": false
+        },
+        "showUnfilled": true,
+        "text": {
+          "titleSize": 1
+        },
+        "valueMode": "color"
+      },
+      "pluginVersion": "10.1.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "HJR9f-qnz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  value\nFROM hybrid_battery_soc_samples;",
+          "refId": "CO2 concentracion (%)",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "metric_sample",
+          "timeColumn": "sampleID",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": "1s",
+      "title": "Hybrid battery SOC",
+      "transparent": true,
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "d1855e2e-df92-45a2-8f72-a0edc5b8be17"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "mappings": [
+            {
+              "options": {
+                "128": {
+                  "index": 0,
+                  "text": "Normal"
+                },
+                "129": {
+                  "index": 1,
+                  "text": "EV"
+                },
+                "132": {
+                  "index": 2,
+                  "text": "EV CITY"
+                },
+                "135": {
+                  "index": 3,
+                  "text": "Battery charge"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 0,
+        "y": 11
+      },
+      "id": 7,
+      "interval": "100ms",
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "HJR9f-qnz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  value\nFROM ev_mode_status_samples;",
+          "refId": "CO2 concentracion (%)",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "metric_sample",
+          "timeColumn": "sampleID",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": "1s",
+      "title": "Drive mode",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "d1855e2e-df92-45a2-8f72-a0edc5b8be17"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "miles"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 4,
+        "y": 11
+      },
+      "id": 18,
+      "interval": "100ms",
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "HJR9f-qnz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  value\nFROM total_distance_travelled_samples;",
+          "refId": "CO2 concentracion (%)",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "metric_sample",
+          "timeColumn": "sampleID",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": "1s",
+      "title": "Mileage",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "d1855e2e-df92-45a2-8f72-a0edc5b8be17"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "text",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 5,
+        "x": 7,
+        "y": 11
+      },
+      "id": 8,
+      "interval": "250ms",
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.1.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "HJR9f-qnz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  value\nFROM accelerator_position_samples;",
+          "refId": "CO2 concentracion (%)",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "metric_sample",
+          "timeColumn": "sampleID",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": "1s",
+      "title": "Accelerator pedal",
+      "transparent": true,
+      "type": "gauge"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "velocitymph"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 11
+      },
+      "id": 5,
+      "interval": "250ms",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "10.1.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "HJR9f-qnz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  value\nFROM vehicle_speed_samples;",
+          "refId": "CO2 concentracion (%)",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "metric_sample",
+          "timeColumn": "sampleID",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": "1s",
+      "title": "Vehicle speed",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "accMS2"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 11
+      },
+      "id": 6,
+      "interval": "250ms",
+      "options": {
+        "colorMode": "none",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "10.1.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "HJR9f-qnz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  value\nFROM deceleration_sensor_samples;",
+          "refId": "CO2 concentracion (%)",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "metric_sample",
+          "timeColumn": "sampleID",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": "1s",
+      "title": "Acceleration",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "d1855e2e-df92-45a2-8f72-a0edc5b8be17"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "index": 0,
+                  "text": "Off"
+                },
+                "1": {
+                  "index": 1,
+                  "text": "Stopping"
+                },
+                "2": {
+                  "index": 2,
+                  "text": "Starting"
+                },
+                "3": {
+                  "index": 3,
+                  "text": "On"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 0,
+        "y": 14
+      },
+      "id": 15,
+      "interval": "100ms",
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^value$/",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "10.1.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "HJR9f-qnz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  value\nFROM engine_mode_samples;",
+          "refId": "CO2 concentracion (%)",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "metric_sample",
+          "timeColumn": "sampleID",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": "1s",
+      "title": "Engine status",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": {},
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-BlYlRd"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "lengthm"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "id": 11,
+      "interval": "250ms",
+      "options": {
+        "basemap": {
+          "config": {},
+          "name": "Layer 0",
+          "type": "default"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": true,
+          "showDebug": false,
+          "showMeasure": false,
+          "showScale": true,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "showLegend": true,
+              "style": {
+                "color": {
+                  "field": "altitude",
+                  "fixed": "dark-green"
+                },
+                "opacity": 0.3,
+                "rotation": {
+                  "fixed": 0,
+                  "max": 360,
+                  "min": -360,
+                  "mode": "mod"
+                },
+                "size": {
+                  "fixed": 5,
+                  "max": 15,
+                  "min": 2
+                },
+                "symbol": {
+                  "fixed": "img/icons/marker/circle.svg",
+                  "mode": "fixed"
+                },
+                "text": {
+                  "fixed": "",
+                  "mode": "field"
+                },
+                "textConfig": {
+                  "fontSize": 12,
+                  "offsetX": 0,
+                  "offsetY": 0,
+                  "textAlign": "center",
+                  "textBaseline": "middle"
+                }
+              }
+            },
+            "location": {
+              "latitude": "latitude",
+              "longitude": "longitude",
+              "mode": "coords"
+            },
+            "name": "Altitude",
+            "tooltip": true,
+            "type": "markers"
+          }
+        ],
+        "tooltip": {
+          "mode": "none"
+        },
+        "view": {
+          "allLayers": true,
+          "id": "fit",
+          "lat": 55.842172,
+          "lon": -4.431007,
+          "shared": false,
+          "zoom": 15.5
+        }
+      },
+      "pluginVersion": "10.1.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "HJR9f-qnz"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  latitude as \"latitude\",\n  longitude as \"longitude\",\n  altitude as \"altitude\"\nFROM location_samples;",
+          "refId": "Latitude",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "metric_sample",
+          "timeColumn": "sampleID",
+          "timeColumnType": "int",
+          "where": [
+            {
+              "name": "$__unixEpochFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": "1s",
+      "title": "Location",
+      "transparent": true,
+      "type": "geomap"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "2023-09-22T16:37:26.411Z",
+    "to": "2023-09-22T17:07:19.875Z"
+  },
+  "timepicker": {
+    "hidden": false,
+    "refresh_intervals": [
+      "100ms",
+      "250ms",
+      "1s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Real Driving Emissions",
+  "uid": "fWVv-nz4z",
+  "version": 14,
+  "weekStart": "monday"
+}
