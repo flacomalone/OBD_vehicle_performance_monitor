@@ -21,8 +21,8 @@ This project gathers different tools for interfacing with the vehicle's CAN bus 
     - Transport layer: ISO-TP
     - Application layer: UDS, OBD
   - clients: implements high-level methods for interacting with low-level messaging protocols libraries described above.
-  - ``gps_collector.py``: gathers the information provided by the [GPS-agent](https://gitavcn.uws.ac.uk/dtena/gps-agent). Can also log results.
-  - ``co2_collector.py``: gathers the information provided by the [CO2-agent](https://gitavcn.uws.ac.uk/dtena/co2_can-agent). Can also log results.
+  - ``gps_collector.py``: gathers the information provided by the [GPS-agent](https://github.com/flacomalone/gps_tracker_fipy). Can also log results.
+  - ``co2_collector.py``: gathers the information provided by the [CO2-agent] (More information about this component can be found [here](https://www.sciencedirect.com/science/article/pii/S2542660523000781)). Can also log results.
   - ``realtime.py``: ensures a constant defined frequency is achieved in loop executions.
   - ``parameters.py``: contains the definitions of ALL the available reverse-engineered parameters from Techstream as well as any other available parameter that can be queried via OBD or UDS. This file also defines the data parsing and scaling of each parameter. The parameters are gathered in a dictionary called "parameters" used by other scripts to ease the querying tasks.
 - **logs**: keeps a record of the footage collected in .CSV format. It contains the following subdirectories:
